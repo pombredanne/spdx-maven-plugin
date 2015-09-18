@@ -16,8 +16,8 @@
 package org.spdx.maven;
 
 import org.apache.maven.plugin.logging.Log;
-import org.spdx.rdfparser.SPDXLicenseInfo;
-import org.spdx.rdfparser.SpdxNoAssertionLicense;
+import org.spdx.rdfparser.license.AnyLicenseInfo;
+import org.spdx.rdfparser.license.SpdxNoAssertionLicense;
 
 /**
  * Simple structure to hold information about SPDX project
@@ -27,8 +27,8 @@ import org.spdx.rdfparser.SpdxNoAssertionLicense;
 class SpdxProjectInformation {
     String[] creators = new String[0];
     String creatorComment = "";
-    SPDXLicenseInfo concludedLicense = new SpdxNoAssertionLicense();
-    SPDXLicenseInfo declaredLicense = new SpdxNoAssertionLicense();
+    AnyLicenseInfo concludedLicense = new SpdxNoAssertionLicense();
+    AnyLicenseInfo declaredLicense = new SpdxNoAssertionLicense();
     String description;
     String downloadUrl;
     String homePage;
@@ -42,6 +42,23 @@ class SpdxProjectInformation {
     String name;
     private String sourceInfo;
     private String copyrightText;
+    private String documentComment;
+    private Annotation[] packageAnnotations;
+    private Annotation[] documentAnnotations;
+    /**
+     * @return the documentComment
+     */
+    public String getDocumentComment()
+    {
+        return documentComment;
+    }
+    /**
+     * @param documentComment the documentComment to set
+     */
+    public void setDocumentComment( String documentComment )
+    {
+        this.documentComment = documentComment;
+    }
     /**
      * @return the sha1
      */
@@ -57,25 +74,25 @@ class SpdxProjectInformation {
     /**
      * @return the concludedLicense
      */
-    public SPDXLicenseInfo getConcludedLicense() {
+    public AnyLicenseInfo getConcludedLicense() {
         return concludedLicense;
     }
     /**
      * @param concludedLicense the concludedLicense to set
      */
-    public void setConcludedLicense( SPDXLicenseInfo concludedLicense ) {
+    public void setConcludedLicense( AnyLicenseInfo concludedLicense ) {
         this.concludedLicense = concludedLicense;
     }
     /**
      * @return the declaredLicense
      */
-    public SPDXLicenseInfo getDeclaredLicense() {
+    public AnyLicenseInfo getDeclaredLicense() {
         return declaredLicense;
     }
     /**
      * @param declaredLicense the declaredLicense to set
      */
-    public void setDeclaredLicense( SPDXLicenseInfo declaredLicense ) {
+    public void setDeclaredLicense( AnyLicenseInfo declaredLicense ) {
         this.declaredLicense = declaredLicense;
     }
     /**
@@ -223,25 +240,38 @@ class SpdxProjectInformation {
      * @param log
      */
     public void logInfo( Log log ) {
-        log.info( "SPDX Project Name: "+this.getName() );
-        log.info( "SPDX Creator comment: "+this.getCreatorComment() );
-        log.info( "SPDX Description: "+this.getDescription() );
-        log.info( "SPDX License comment: "+this.getLicenseComment() );
-        log.info( "SPDX Originator: "+this.getOriginator() );
-        log.info( "SPDX PackageArchiveFileName: "+this.getPackageArchiveFileName() );
-        log.info( "SPDX SHA1: "+this.getSha1() );
-        log.info( "SPDX Short description: "+this.getShortDescription() );
-        log.info( "SPDX Supplier: "+this.getSupplier() );
-        log.info( "SPDX Source Info:  "+this.getSourceInfo() );
-        log.info( "SPDX Version info: "+this.getVersionInfo() );
-        log.info( "SPDX Concluded license: "+this.getConcludedLicense().toString() );
-        log.info( "SPDX Declared license: "+this.getDeclaredLicense().toString() );
-        log.info( "SPDX Download URL: "+this.getDownloadUrl() );
-        log.info( "SPDX Home page: "+this.getHomePage() );
+        log.debug( "SPDX Project Name: "+this.getName() );
+        log.debug( "SPDX Document comment: "+this.getDocumentComment() );
+        log.debug( "SPDX Creator comment: "+this.getCreatorComment() );
+        log.debug( "SPDX Description: "+this.getDescription() );
+        log.debug( "SPDX License comment: "+this.getLicenseComment() );
+        log.debug( "SPDX Originator: "+this.getOriginator() );
+        log.debug( "SPDX PackageArchiveFileName: "+this.getPackageArchiveFileName() );
+        log.debug( "SPDX SHA1: "+this.getSha1() );
+        log.debug( "SPDX Short description: "+this.getShortDescription() );
+        log.debug( "SPDX Supplier: "+this.getSupplier() );
+        log.debug( "SPDX Source Info:  "+this.getSourceInfo() );
+        log.debug( "SPDX Version info: "+this.getVersionInfo() );
+        log.debug( "SPDX Concluded license: "+this.getConcludedLicense().toString() );
+        log.debug( "SPDX Declared license: "+this.getDeclaredLicense().toString() );
+        log.debug( "SPDX Download URL: "+this.getDownloadUrl() );
+        log.debug( "SPDX Home page: "+this.getHomePage() );
+        if ( this.documentAnnotations != null && this.documentAnnotations.length > 0 ) {
+            log.debug( "Document annotations: " );
+            for ( Annotation annotation:documentAnnotations ) {
+                annotation.logInfo( log );
+            }
+        }
+        if ( this.packageAnnotations != null && this.packageAnnotations.length > 0 ) {
+            log.debug( "Package annotations: " );
+            for ( Annotation annotation:packageAnnotations ) {
+                annotation.logInfo( log );
+            }
+        }
         String[] creators = this.getCreators();
         if ( creators != null ) {
             for ( int i = 0; i < creators.length; i++ ) {
-                log.info( "SPDX Creator: "+creators[i] );
+                log.debug( "SPDX Creator: "+creators[i] );
             }
         }
     }
@@ -260,5 +290,20 @@ class SpdxProjectInformation {
     public String getCopyrightText()
     {
         return this.copyrightText;
+    }
+    public void setPackageAnnotations( Annotation[] packageAnnotations )
+    {
+        this.packageAnnotations = packageAnnotations;
+        
+    }
+    public Annotation[] getPackageAnnotations() {
+        return this.packageAnnotations;
+    }
+    public void setDocumentAnnotations( Annotation[] documentAnnotations )
+    {
+        this.documentAnnotations = documentAnnotations;
+    }
+    public Annotation[] getDocumentAnnotations() {
+        return this.documentAnnotations;
     }
 }

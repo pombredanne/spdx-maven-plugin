@@ -16,11 +16,13 @@
 package org.spdx.maven;
 
 /**
- * Exceptions for the collection of SPDX information
+ * Errors related to mapping Maven licenses to SPDX licenses
  * @author Gary O'Neall
  *
  */
-public class SpdxCollectionException extends Exception {
+public class LicenseMapperException
+    extends Exception
+{
 
     /**
      * 
@@ -30,21 +32,24 @@ public class SpdxCollectionException extends Exception {
     /**
      * 
      */
-    public SpdxCollectionException() {
-        super();
+    public LicenseMapperException()
+    {
+        // default constructor
     }
 
     /**
      * @param message
      */
-    public SpdxCollectionException( String message ) {
+    public LicenseMapperException( String message )
+    {
         super( message );
     }
 
     /**
      * @param cause
      */
-    public SpdxCollectionException( Throwable cause ) {
+    public LicenseMapperException( Throwable cause )
+    {
         super( cause );
     }
 
@@ -52,7 +57,9 @@ public class SpdxCollectionException extends Exception {
      * @param message
      * @param cause
      */
-    public SpdxCollectionException( String message, Throwable cause ) {
+    public LicenseMapperException( String message, Throwable cause )
+    {
         super( message, cause );
     }
+
 }

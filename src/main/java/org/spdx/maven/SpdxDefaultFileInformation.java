@@ -16,87 +16,104 @@
 package org.spdx.maven;
 
 import org.apache.maven.plugin.logging.Log;
-import org.spdx.rdfparser.DOAPProject;
-import org.spdx.rdfparser.SPDXLicenseInfo;
-import org.spdx.rdfparser.SpdxNoAssertionLicense;
+import org.spdx.rdfparser.model.DoapProject;
+import org.spdx.rdfparser.license.AnyLicenseInfo;
+import org.spdx.rdfparser.license.SpdxNoAssertionLicense;
 
 /**
  * Simple structure to hold information obout default file information
  * @author Gary O'Neall
  *
  */
-public class SpdxDefaultFileInformation {
+public class SpdxDefaultFileInformation 
+{
 
-    private SPDXLicenseInfo declaredLicense = new SpdxNoAssertionLicense();
+    private AnyLicenseInfo declaredLicense = new SpdxNoAssertionLicense();
     private String copyright = "NOASSERTION";
     private String notice = "";
     private String comment = "";
     private String[] contributors = new String[0];
-    private DOAPProject[] artifactOf = new DOAPProject[0];
-    private SPDXLicenseInfo concludedLicense = new SpdxNoAssertionLicense();;
+    private DoapProject[] artifactOf = new DoapProject[0];
+    private AnyLicenseInfo concludedLicense = new SpdxNoAssertionLicense();;
     private String licenseComment = "";
 
-    public SPDXLicenseInfo getDeclaredLicense() {
+    public AnyLicenseInfo getDeclaredLicense() 
+    {
         return this.declaredLicense;
     }
     
-    public void setDeclaredLicense( SPDXLicenseInfo license ) {
+    public void setDeclaredLicense( AnyLicenseInfo license ) 
+    {
         this.declaredLicense = license;
     }
 
-    public String getCopyright() {
+    public String getCopyright() 
+    {
         return this.copyright ;
     }
     
-    public void setCopyright( String copyright ) {
+    public void setCopyright( String copyright ) 
+    {
         this.copyright = copyright;
     }
 
-    public String getNotice() {
+    public String getNotice() 
+    {
         return this.notice;
     }
     
-    public void setNotice( String notice ) {
+    public void setNotice( String notice ) 
+    {
         this.notice = notice;
     }
 
-    public String getComment() {
+    public String getComment() 
+    {
         return this.comment;
     }
     
-    public void setComment( String comment ) {
+    public void setComment( String comment ) 
+    {
         this.comment = comment;
     }
 
-    public String[] getContributors() {
+    public String[] getContributors() 
+    {
         return this.contributors;
     }
     
-    public void setContributors( String[] contributors ) {
+    public void setContributors( String[] contributors ) 
+    {
         this.contributors = contributors;
     }
 
-    public DOAPProject[] getArtifactOf() {
+    public DoapProject[] getArtifactOf() 
+    {
         return this.artifactOf;
     }
     
-    public void setArtifactOf( DOAPProject[] projects ) {
+    public void setArtifactOf( DoapProject[] projects ) 
+    {
         this.artifactOf = projects;
     }
 
-    public SPDXLicenseInfo getConcludedLicense() {
+    public AnyLicenseInfo getConcludedLicense() 
+    {
         return this.concludedLicense;
     }
     
-    public void setConcludedLicense( SPDXLicenseInfo license ) {
+    public void setConcludedLicense( AnyLicenseInfo license ) 
+    {
         this.concludedLicense = license;
     }
 
-    public String getLicenseComment() {
+    public String getLicenseComment() 
+    {
         return this.licenseComment;
     }
     
-    public void setLicenseComment( String licenseComment ) {
+    public void setLicenseComment( String licenseComment ) 
+    {
         this.licenseComment = licenseComment;
     }
 
@@ -106,23 +123,27 @@ public class SpdxDefaultFileInformation {
      */
     public void logInfo( Log log )
     {
-        log.info( "Default File Comment: "+getComment() );
-        log.info( "Default File Copyright: "+getCopyright() );
-        log.info( "Default File License Comment: "+getLicenseComment() );
-        log.info( "Default File Notice: "+getNotice() );
-        log.info( "Default File Concluded License: "+getConcludedLicense().toString() );
-        log.info( "Default File Declared License: "+getDeclaredLicense().toString() );
-        DOAPProject[] artifactOfs = getArtifactOf();
-        if ( artifactOfs != null ) {
-            for ( int i = 0; i < artifactOfs.length; i++ ) {
-                log.info( "Default ArtifactOf Project Name: "+artifactOfs[i].getName() );
-                log.info( "Default ArtifactOf Project HomePage: "+artifactOfs[i].getHomePage() );
+        log.debug( "Default File Comment: "+getComment() );
+        log.debug( "Default File Copyright: "+getCopyright() );
+        log.debug( "Default File License Comment: "+getLicenseComment() );
+        log.debug( "Default File Notice: "+getNotice() );
+        log.debug( "Default File Concluded License: "+getConcludedLicense().toString() );
+        log.debug( "Default File Declared License: "+getDeclaredLicense().toString() );
+        DoapProject[] artifactOfs = getArtifactOf();
+        if ( artifactOfs != null ) 
+        {
+            for ( int i = 0; i < artifactOfs.length; i++ ) 
+            {
+                log.debug( "Default ArtifactOf Project Name: "+artifactOfs[i].getName() );
+                log.debug( "Default ArtifactOf Project HomePage: "+artifactOfs[i].getHomePage() );
             }
         }
         String[] contributors = getContributors();
-        if ( contributors != null ) {
-            for ( int i = 0; i < contributors.length; i++ ) {
-                log.info( "Default File Contributors: "+contributors[i] );
+        if ( contributors != null ) 
+        {
+            for ( int i = 0; i < contributors.length; i++ ) 
+            {
+                log.debug( "Default File Contributors: "+contributors[i] );
             }
         }
     }

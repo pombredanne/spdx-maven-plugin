@@ -101,24 +101,22 @@ public class TestLicenseManager
 
     /**
      * Test method for {@link org.spdx.maven.LicenseManager#LicenseManager(org.spdx.rdfparser.SpdxDocument, org.apache.maven.plugin.logging.Log)}.
-     * @throws LicenseMapperException 
      */
     @Test
-    public void testLicenseManager() throws LicenseMapperException
+    public void testLicenseManager()
     {
         @SuppressWarnings( "unused" )
         LicenseManager licenseManager = new LicenseManager(spdxDoc, log, false);
     }
 
     /**
-     * Test method for {@link org.spdx.maven.LicenseManager#addExtractedLicense(org.spdx.maven.NonStandardLicense)}.
+     * Test method for {@link org.spdx.maven.LicenseManager#addNonStandardLicense(org.spdx.maven.NonStandardLicense)}.
      * @throws MalformedURLException 
      * @throws LicenseManagerException 
      * @throws InvalidSPDXAnalysisException 
-     * @throws LicenseMapperException 
      */
     @Test
-    public void testAddNonStandardLicense() throws MalformedURLException, LicenseManagerException, InvalidSPDXAnalysisException, LicenseMapperException
+    public void testAddNonStandardLicense() throws MalformedURLException, LicenseManagerException, InvalidSPDXAnalysisException
     {
         LicenseManager licenseManager = new LicenseManager(spdxDoc, log, false);
         NonStandardLicense lic = new NonStandardLicense();
@@ -134,7 +132,7 @@ public class TestLicenseManager
         lic.setLicenseId( LICENSE_ID );
         lic.setName( LICENSE_NAME );
         
-        licenseManager.addExtractedLicense( lic );
+        licenseManager.addNonStandardLicense( lic );
         
         ExtractedLicenseInfo[] result = spdxDoc.getExtractedLicenseInfos();
         assertEquals( 1, result.length );
@@ -150,7 +148,7 @@ public class TestLicenseManager
         lic2.setLicenseId( LICENSE_ID2 );
         lic2.setExtractedText( EXTRACTED_TEXT2 );
         
-        licenseManager.addExtractedLicense( lic2 );
+        licenseManager.addNonStandardLicense( lic2 );
         
         result = spdxDoc.getExtractedLicenseInfos();
         assertEquals( 2, result.length );
@@ -191,10 +189,9 @@ public class TestLicenseManager
     /**
      * Test method for {@link org.spdx.maven.LicenseManager#mavenLicenseListToSpdxLicense(java.util.List)}.
      * @throws LicenseManagerException 
-     * @throws LicenseMapperException 
      */
     @Test
-    public void testMavenLicenseListToSpdxLicense() throws LicenseManagerException, LicenseMapperException
+    public void testMavenLicenseListToSpdxLicense() throws LicenseManagerException
     {
         final String LICENSE1_NAME = "Apachelicense1";
         final String LICENSE2_NAME = "APSLlicense2";
@@ -232,10 +229,9 @@ public class TestLicenseManager
      * Test method for {@link org.spdx.maven.LicenseManager#mavenLicenseToSpdxLicense(org.apache.maven.model.License)}.
      * @throws LicenseManagerException 
      * @throws MalformedURLException 
-     * @throws LicenseMapperException 
      */
     @Test
-    public void testMavenLicenseToSpdxLicense() throws LicenseManagerException, MalformedURLException, LicenseMapperException
+    public void testMavenLicenseToSpdxLicense() throws LicenseManagerException, MalformedURLException
     {
         // unmapped license - can not test without valid log
         // standard license
@@ -262,7 +258,7 @@ public class TestLicenseManager
         lic.setExtractedText( EXTRACTED_TEXT );
         lic.setLicenseId( LICENSE_ID );
         lic.setName( LICENSE_NAME );       
-        licenseManager.addExtractedLicense( lic );
+        licenseManager.addNonStandardLicense( lic );
         License nonStd = new License();
         nonStd.setComments( COMMENT );
         nonStd.setName( LICENSE_NAME );
@@ -282,10 +278,9 @@ public class TestLicenseManager
      * Test method for {@link org.spdx.maven.LicenseManager#spdxLicenseToMavenLicense(org.spdx.rdfparser.AnyLicenseInfo)}.
      * @throws InvalidLicenseStringException 
      * @throws LicenseManagerException 
-     * @throws LicenseMapperException 
      */
     @Test
-    public void testSpdxLicenseToMavenLicense() throws InvalidLicenseStringException, LicenseManagerException, LicenseMapperException
+    public void testSpdxLicenseToMavenLicense() throws InvalidLicenseStringException, LicenseManagerException
     {
         LicenseManager licenseManager = new LicenseManager( spdxDoc, log, false );
         // standard license
